@@ -1,0 +1,471 @@
+/* General Styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f7fa;
+    color: #2d3748;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #d5006d;
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: #fff;
+    padding-top: 20px;
+    overflow-y: auto;
+}
+
+.sidebar .logo {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.sidebar .logo img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+}
+
+.sidebar-header {
+    padding: 10px 10px;
+    background-color: #d5006d;
+    color: #fff;
+    text-align: center;
+}
+
+.sidebar-header img {
+    border-radius: 40%;
+    width: 80px;
+    height: 80px;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+}
+
+.sidebar-header h3 {
+    margin: 10px 0 5px;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.sidebar-header p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.sidebar-menu {
+    padding: 20px 15px;
+}
+
+.sidebar-menu a {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    align-items: center;
+    padding: 14px 20px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.sidebar-menu a i {
+    width: 24px;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar-menu a span {
+    margin-left: 8px; /* Spacing antara icon dan text */
+}
+
+.sidebar-menu a:hover, .sidebar-menu a.active {
+    background-color: #c51162;
+    color: #fff;
+    transform: translateX(5px);
+}
+
+/* Main Content Styling */
+.main-content {
+    margin-left: 280px;
+    padding: 20px 30px;
+}
+
+.header {
+    background-color: #fff;
+    color: #2d3748;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: -10px -30px 20px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+}
+
+.header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2d3748;
+}
+
+/* Dashboard Cards */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card i {
+    font-size: 28px;
+    color: #eb256e;
+    margin-bottom: 15px;
+}
+
+.card h3 {
+    margin: 0 0 10px;
+    font-size: 16px;
+    color: #2f0316;
+}
+
+.card p {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #2c0a10;
+}
+
+/* Table Styling */
+.table-container {
+    background-color: #fef1f4;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(17, 1, 1, 0.05);
+    overflow-x: auto;
+
+    justify-content: center; /* Memusatkan konten di dalam kontainer */
+}
+
+.table-container h2 {
+    margin: 0 0 20px;
+    font-size: 20px;
+    color: #2d3748;
+}
+
+table {
+   
+        width: 100%; /* Atau lebar yang lebih besar dari kontainer */
+        max-width: 1200px; /* Atur lebar maksimum jika perlu */
+        margin: 0 auto; /* Ini akan memusatkan tabel */
+        border-collapse: collapse; /* Menghilangkan jarak antara border sel */
+    
+}
+
+table th {
+    background-color: #f8fafc;
+    padding: 15px;
+    font-weight: 600;
+    color: #000000;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    border: 1px solid #000000;
+}
+
+table td {
+    padding: 15px;
+    border-bottom: 1px solid #edf2f7;
+    color: #4a5568;
+    border: 1px solid #000000;
+    
+}
+
+/* Button Styling */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.btn-primary {
+    background-color: #ff69b4; /* Warna pink */
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #ff1493; /* Warna pink lebih gelap saat hover */
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: #fff;
+}
+
+/* Tambahan untuk tombol "Tambah Data" */
+.btn-add {
+    background-color: #ff69b4; /* Warna latar belakang tombol */
+    color: #fff; /* Warna teks */
+    padding: 10px 20px; /* Padding untuk tombol */
+    border: none; /* Tanpa border */
+    border-radius: 5px; /* Sudut tombol yang membulat */
+    cursor: pointer; /* Menunjukkan bahwa ini adalah tombol yang dapat diklik */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Efek transisi */
+    font-size: 16px; /* Ukuran font */
+    font-weight: 600; /* Ketebalan font */
+    margin-bottom: 20px; /* Menambahkan jarak bawah */
+}
+
+.btn-add:hover {
+    background-color: #ff1493; /* Warna lebih gelap saat hover */
+    transform: scale(1.05); /* Efek memperbesar saat hover */
+}
+
+/* Settings Page */
+.settings-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.settings-card {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 25px;
+}
+
+.settings-card h3 {
+    margin: 0 0 25px;
+    font-size: 18px;
+    color: #2d3748;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.content-section {
+    display: none;
+}
+
+.content-section.active {
+    display: block;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.save-settings {
+    background-color: #2563eb;
+    color: #fff;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.save-settings:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+/* Penggajian Styling */
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.badge.success {
+    background-color: #10B981;
+    color: white;
+}
+
+.badge.pending {
+    background-color: #F59E0B;
+    color: white;
+}
+
+.action-btn {
+    padding: 5px;
+    margin: 0 3px;
+    color: #4B5563;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.action-btn:hover {
+    transform: scale(1.1);
+}
+
+.action-btn.edit:hover {
+    color: #d5006d;
+}
+
+.action-btn.print:hover {
+    color: #10B981;
+}
+
+.action-btn.delete:hover {
+    color: #EF4444;
+}
+
+/* Responsive Table */
+@media (max-width: 1024px) {
+    .table-container {
+        overflow-x: auto;
+    }
+    
+    table {
+        min-width: 1000px;
+    }
+}
+
+.search-container {
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.search-container i {
+    margin-right: 8px;
+    color: #4a5568;
+}
+
+.search-container input {
+    width: 200px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+.btn-pink:hover {
+    background-color: #ff99cc; /* Warna saat hover */
+    transform: scale(1.05); /* Efek memperbesar saat hover */
+}
+
+
+.profile {
+    display: flex; /* Menggunakan flexbox untuk penataan */
+    align-items: center; /* Menyelaraskan gambar dan teks secara vertikal */
+}
+
+.profile-image {
+    width: 50px; /* Atur lebar gambar sesuai kebutuhan */
+    height: auto; /* Menjaga proporsi gambar */
+    border-radius: 50%; /* Membuat gambar menjadi bulat */
+    margin-right: 10px; /* Spasi antara gambar dan teks */
+}
+
+.profile-name {
+    font-size: 16px; /* Ukuran font yang lebih kecil */
+    font-weight: 600; /* Ketebalan font */
+    margin: 0; /* Menghapus margin default */
+}
+
+.profile-description {
+    font-size: 14px; /* Ukuran font untuk deskripsi */
+    margin: 0; /* Menghapus margin default */
+}
+.sidebar-menu a.logout {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    align-items: center;
+    padding: 14px 20px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.sidebar-menu a.logout i {
+    width: 24px;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar-menu a.logout:hover {
+    background-color: #c51162; /* Warna saat hover */
+    color: #fff;
+    transform: translateX(5px);
+}
+.logout-button {
+    background-color: #d5006d; /* Warna latar untuk tombol logout */
+    color: white; /* Warna teks untuk tombol logout */
+    font-weight: bold;
+}
+
+.logout-button:hover {
+    background-color: #c51162; /* Warna latar saat hover pada tombol logout */
+}
+#userInfo {
+    border: 1px solid #ccc;
+    padding: 20px;
+    background-color: #f9f9f9;
+    position: absolute; /* atau fixed, tergantung kebutuhan */
+    z-index: 1000; /* agar muncul di atas elemen lain */
+}

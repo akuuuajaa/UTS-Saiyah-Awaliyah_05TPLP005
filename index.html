@@ -1,0 +1,2147 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>
+   (Saiyah Awaliyah_05TPLP005)Sistem Informasi Manajemen Karyawan)
+  </title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css">
+  <link rel="script" href="script.js">
+  
+ 
+  <script>
+         function showSection(sectionId) {
+            // Hide all sections first 
+            var sections = document.querySelectorAll('.content-section'); 
+            sections.forEach(function(section) { 
+                section.style.display = 'none'; 
+                section.classList.remove('active'); 
+            }); 
+
+            // Remove active class from all sidebar links 
+            var sidebarLinks = document.querySelectorAll('.sidebar-menu a'); 
+            sidebarLinks.forEach(function(link) { 
+                link.classList.remove('active'); 
+            }); 
+
+            // Show the selected section and add active class 
+            var selectedSection = document.getElementById(sectionId); 
+            if (selectedSection) { 
+                selectedSection.style.display = 'block'; 
+                selectedSection.classList.add('active'); 
+            } 
+
+            // Add active class to clicked sidebar link 
+            var activeLink = document.querySelector(`a[onclick="showSection('${sectionId}')"]`); 
+            if (activeLink) { 
+                activeLink.classList.add('active'); 
+            } 
+
+            // Special handling for logout 
+            if (sectionId === 'logout') { 
+                // Redirect to login.html
+                window.location.href = 'login.html'; 
+            } 
+        }
+
+        // When page loads, show dashboard by default 
+        document.addEventListener('DOMContentLoaded', function() { 
+            showSection('dashboard'); 
+        });
+        
+       // Fungsi untuk mencari data karyawan
+       function searchKaryawan() {
+            const input = document.getElementById('searchKaryawan');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('karyawanTableBody');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 0; i < tr.length; i++) {
+                const td = tr[i].getElementsByTagName('td')[2]; // Kolom Nama Karyawan
+                if (td) {
+                    const txtValue = td.textContent || td.innerText;
+                    tr[i].style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
+                }
+            }
+        }
+
+        // Fungsi untuk menambah data karyawan
+        function addKaryawan() {
+            const id = document.getElementById('inputIDKaryawan').value;
+            const nama = document.getElementById('inputNamaKaryawan').value;
+            const email = document.getElementById('inputEmailKaryawan').value;
+            const alamat = document.getElementById('inputAlamatKaryawan').value;
+            const jabatan = document.getElementById('inputJabatanKaryawan').value;
+
+            const tableBody = document.getElementById('karyawanTableBody');
+            const rowCount = tableBody.rows.length + 1; // Menghitung nomor urut
+
+            const row = `<tr>
+                <td>${rowCount}</td>
+                <td>${id}</td>
+                <td>${nama}</td>
+                <td>${email}</td>
+                <td>${alamat}</td>
+                <td>${jabatan}</td>
+                <td>
+                    <a href="#" class="action-btn edit" onclick="editKaryawan(this)"><i class="fas fa-edit"></i></a>
+                    <a href="#" class="action-btn delete" onclick="deleteKaryawan(this)"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>`;
+            tableBody.innerHTML += row;
+
+            // Reset form input
+            document.getElementById('inputIDKaryawan').value = '';
+            document.getElementById('inputNamaKaryawan').value = '';
+            document.getElementById('inputEmailKaryawan').value = '';
+            document.getElementById('inputAlamatKaryawan').value = '';
+            document.getElementById('inputJabatanKaryawan').value = '';
+        }
+
+        // Fungsi untuk menghapus data karyawan
+        function deleteKaryawan(row) {
+            const i = row.parentNode.parentNode.rowIndex; // Mendapatkan indeks baris
+            document.getElementById('karyawanTableBody').deleteRow(i - 1); // Menghapus baris
+        }
+
+        // Fungsi untuk mengedit data karyawan
+        function editKaryawan(row) {
+            const i = row.parentNode.parentNode.rowIndex; // Mendapatkan indeks baris
+            const table = document.getElementById('karyawanTableBody');
+            const selectedRow = table.rows[i - 1]; // Mendapatkan baris yang dipilih
+
+            // Mengisi form input dengan data yang ada
+            document.getElementById('inputIDKaryawan').value = selectedRow.cells[1].innerText; 
+            document.getElementById('inputNamaKaryawan').value = selectedRow.cells[2].innerText; 
+            document.getElementById('inputEmailKaryawan').value = selectedRow.cells[3].innerText; 
+ document.getElementById('inputAlamatKaryawan').value = selectedRow.cells[4].innerText; 
+            document.getElementById('inputJabatanKaryawan').value = selectedRow.cells[5].innerText; 
+
+            // Menghapus baris yang dipilih
+            deleteKaryawan(row);
+        }
+        function searchJabatan() {
+            const input = document.getElementById('searchJabatan');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('jabatanTableBody');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 0; i < tr.length; i++) {
+                const td = tr[i].getElementsByTagName('td')[2]; // Kolom Nama Jabatan
+                if (td) {
+                    const txtValue = td.textContent || td.innerText;
+                    tr[i].style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
+                }
+            }
+        }
+
+        // Fungsi untuk menambah data jabatan
+        function addJabatan() {
+            const kode = document.getElementById('inputKodeJabatan').value;
+            const nama = document.getElementById('inputNamaJabatan').value;
+
+            const tableBody = document.getElementById('jabatanTableBody');
+            const rowCount = tableBody.rows.length + 1; // Menghitung nomor urut
+
+            const row = `<tr>
+                <td>${rowCount}</td>
+                <td>${kode}</td>
+                <td>${nama}</td>
+                <td>
+                    <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                    <a href="#" class="action-btn delete" onclick="deleteJabatan(this)"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>`;
+            tableBody.innerHTML += row;
+
+            // Reset form input
+            document.getElementById('inputKodeJabatan').value = '';
+            document.getElementById('inputNamaJabatan').value = '';
+        }
+
+        // Fungsi untuk mencari data jabatan
+        function searchJabatan() {
+            const input = document.getElementById('searchJabatan');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('jabatanTableBody');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 0; i < tr.length; i++) {
+                const td = tr[i].getElementsByTagName('td')[2]; // Kolom Nama Jabatan
+                if (td) {
+                    const txtValue = td.textContent || td.innerText;
+                    tr[i].style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
+                }
+            }
+        }
+
+        // Fungsi untuk menghapus data jabatan
+        function deleteJabatan(row) {
+            const i = row.parentNode.parentNode.rowIndex; // Mendapatkan indeks baris
+            document.getElementById('jabatanTableBody').deleteRow(i - 1); // Menghapus baris
+        }
+
+        // Fungsi untuk menambah data divisi
+        function addDivisi() {
+            const id = document.getElementById('inputIDDivisi').value;
+            const nama = document.getElementById('inputNamaDivisi').value;
+
+            const tableBody = document.getElementById('divisiTableBody');
+            const rowCount = tableBody.rows.length + 1; // Menghitung nomor urut
+
+            const row = `<tr>
+                <td>${rowCount}</td>
+                <td>${id}</td>
+                <td>${nama}</td>
+                <td>
+                    <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                    <a href="#" class="action-btn delete" onclick="deleteDivisi(this)"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>`;
+            tableBody.innerHTML += row;
+
+            // Reset form input
+            document.getElementById('inputIDDivisi').value = '';
+            document.getElementById('inputNamaDivisi').value = '';
+        }
+
+        // Fungsi untuk mencari data divisi
+        function searchDivisi() {
+            const input = document.getElementById('searchDivisi');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('divisiTableBody');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 0; i < tr.length; i++) {
+                const td = tr[i].getElementsByTagName('td')[2]; // Kolom Nama Divisi
+                if (td) {
+                    const txtValue = td.textContent || td.innerText;
+                    tr[i].style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
+                }
+            }
+        }
+
+        // Fungsi untuk menghapus data divisi
+        function deleteDivisi(row) {
+            const i = row.parentNode.parentNode.rowIndex; // Mendapatkan indeks baris
+            document.getElementById('divisiTableBody').deleteRow(i - 1); // Menghapus baris
+        }
+        function searchIzin() {
+            const input = document.getElementById('searchIzin');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('izinTableBody');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 0; i < tr.length; i++) {
+                const td = tr[i].getElementsByTagName('td')[1]; // Kolom Nama
+                if (td) {
+                    const txtValue = td.textContent || td.innerText;
+                    tr[i].style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
+                }
+            }
+        }
+
+        function addAbsensi() {
+            const id = document.getElementById('inputIDAbsensi').value;
+            const nama = document.getElementById('inputNamaAbsensi').value;
+            const tanggal = document.getElementById('inputTanggalAbsensi').value;
+            const jamMasuk = document.getElementById('inputJamMasuk').value;
+            const jamKeluar = document.getElementById('inputJamKeluar').value;
+
+            if (id && nama && tanggal && jamMasuk && jamKeluar) {
+                const tbody = document.getElementById('absensiTableBody');
+                const rowCount = tbody.rows.length + 1; // Menghitung nomor urut
+
+                const row = `<tr>
+                    <td>${rowCount}</td>
+                    <td>${id}</td>
+                    <td>${nama}</td>
+                    <td>${tanggal}</td>
+                    <td>${jamMasuk}</td>
+                    <td>${jamKeluar}</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteAbsensi(this)"><i class="fas fa-trash "></i></a>
+                    </td>
+                </tr>`;
+                tbody.innerHTML += row;
+                clearForm();
+            } else {
+                alert("Semua kolom harus diisi!");
+            }
+        }
+
+        function deleteAbsensi(element) {
+            element.parentNode.parentNode.remove();
+        }
+
+        function searchAbsensi() {
+            const query = document.getElementById('searchAbsensi').value.toLowerCase();
+            const rows = document.getElementById('absensiTableBody').rows;
+            for (let i = 0; i < rows.length; i++) {
+                const nama = rows[i].cells[2].textContent.toLowerCase();
+                if (nama.includes(query)) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        }
+
+        function clearForm() {
+            document.getElementById('inputIDAbsensi').value = '';
+            document.getElementById('inputNamaAbsensi').value = '';
+            document.getElementById('inputTanggalAbsensi').value = '';
+            document.getElementById('inputJamMasuk').value = '';
+            document.getElementById('inputJamKeluar').value = '';
+        }
+
+        // Fungsi untuk menambah data izin
+        function addIzin() {
+            const id = document.getElementById('inputIDIzin').value;
+            const nama = document.getElementById('inputNamaIzin').value;
+            const tanggal = document.getElementById('inputTanggalIzin').value;
+            const keterangan = document.getElementById('inputKeteranganIzin').value;
+            const status = document.getElementById('inputStatusIzin').value; // Ambil nilai status dari dropdown
+
+            const tableBody = document.getElementById('izinTableBody');
+            const rowCount = tableBody.rows.length + 1; // Menghitung nomor urut
+
+            const row = `<tr>
+                <td>${rowCount}</td>
+                <td>${id}</td>
+                <td>${nama}</td>
+                <td>${tanggal}</td>
+                <td>${keterangan}</td>
+                <td>${status}</td> <!-- Tambahkan status ke baris -->
+                <td>
+                    <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                    <a href="#" class="action-btn delete" onclick="deleteIzin(this)"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>`;
+            tableBody.innerHTML += row;
+
+            // Reset input fields
+            resetIzinForm(); // Pastikan Anda memiliki fungsi ini untuk mereset form
+        }
+
+        // Fungsi untuk mencari data izin
+        function searchIzin() {
+            const input = document.getElementById('searchIzin');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('izinTableBody');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 0; i < tr.length; i++) {
+                const td = tr[i].getElementsByTagName('td')[2]; // Kolom Nama
+                if (td) {
+                    const txtValue = td.textContent || td.innerText;
+                    tr[i].style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
+                }
+            }
+        }
+
+        // Fungsi untuk menghapus data izin
+        function deleteIzin(row) {
+            const i = row.parentNode.parentNode.rowIndex; // Mendapatkan indeks baris
+            document.getElementById('izinTableBody').deleteRow(i - 1); // Menghapus baris
+        }
+
+        // Fungsi untuk menambah data lembur
+        function addLembur() {
+            const id = document.getElementById('inputIDLembur').value;
+            const nama = document.getElementById('inputNamaLembur').value;
+            const tanggal = document.getElementById('inputTanggalLembur').value;
+            const jamLembur = document.getElementById('inputJamLembur').value;
+            const keterangan = document.getElementById('inputKeteranganLembur').value;
+            const status = document.getElementById('inputStatusLembur').value; // Ambil nilai status dari dropdown
+
+            const tableBody = document.getElementById('lemburTableBody');
+            const rowCount = tableBody.rows.length + 1; // Menghitung nomor urut
+
+            const row = `<tr>
+                <td>${rowCount}</td>
+                <td>${id}</td>
+                <td>${nama}</td>
+                <td>${tanggal}</td>
+                <td>${jamLembur}</td>
+                <td>${keterangan}</td>
+                <td>${status}</td> <!-- Tambahkan status ke baris -->
+                <td>
+                    <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                    <a href="#" class="action-btn delete" onclick="deleteLembur(this)"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>`;
+            tableBody.innerHTML += row;
+
+            // Reset input fields
+            resetLemburForm(); // Pastikan Anda memiliki fungsi ini untuk mereset form
+        }
+
+        // Fungsi untuk mencari data lembur
+        function searchLembur() {
+            const input = document.getElementById('searchLembur');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('lemburTableBody');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 0; i < tr.length; i++) {
+                const td = tr[i].getElementsByTagName('td')[2]; // Kolom Nama
+                if (td) {
+                    const txtValue = td.textContent || td.innerText;
+                    tr[i].style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
+                }
+            }
+        }
+
+        // Fungsi untuk menghapus data lembur
+        function deleteLembur(row) {
+            const i = row.parentNode.parentNode.rowIndex; // Mendapatkan indeks baris
+            document.getElementById('lemburTableBody').deleteRow(i - 1); // Menghapus baris
+        }
+
+
+        // Fungsi untuk menambah data gaji
+        function addGaji() {
+            const id = document.getElementById('inputIDGaji').value;
+            const nama = document.getElementById('inputNamaGaji').value;
+            const gajiPokok = document.getElementById('inputGajiPokok').value;
+            const tunjangan = document.getElementById('inputTunjangan').value;
+            const lembur = document.getElementById('inputLembur').value;
+            const potongan = document.getElementById('inputPotongan').value;
+            const totalGaji = document.getElementById('inputTotalGaji').value;
+            const periode = document.getElementById('inputPeriode').value;
+
+            const tableBody = document.getElementById('gajiTableBody');
+            const rowCount = tableBody.rows.length + 1;
+
+            const row = tableBody.insertRow(rowCount);
+            row.innerHTML = `
+                <td>${rowCount}</td>
+                <td>${id}</td>
+                <td>${nama}</td>
+                <td>${gajiPokok}</td>
+                <td>${tunjangan}</td>
+                <td>${lembur}</td>
+                <td>${potongan}</td>
+                <td>${totalGaji}</td>
+                <td>${periode}</td>
+                <td><span class="badge success">Dibayar</span></td>
+                <td>
+                    <a href="#" class="action-btn edit" onclick="editGaji(this)"><i class="fas fa-edit"></i></a>
+                    <a href="#" class="action-btn print" onclick="printSlipGaji(this)"><i class="fas fa-print"></i></a>
+                    <a href="#" class="action-btn delete" onclick="deleteGaji(this)"><i class="fas fa-trash"></i></a>
+                </td>
+            `;
+
+            // Simpan data ke Local Storage
+            saveDataToLocalStorage();
+
+            // Reset input fields
+            document.getElementById('inputIDGaji').value = '';
+            document.getElementById('inputNamaGaji').value = '';
+            document.getElementById('inputGajiPokok').value = '';
+            document.getElementById('inputTunjangan').value = '';
+            document.getElementById('inputLembur').value = '';
+            document.getElementById('inputPotongan').value = '';
+            document.getElementById('inputTotalGaji').value = '';
+            document.getElementById('inputPeriode').value = '';
+        }
+
+        // Fungsi untuk menyimpan data ke Local Storage
+        function saveDataToLocalStorage() {
+            const tableBody = document.getElementById('karyawanTableBody');
+            const rows = tableBody.getElementsByTagName('tr');
+            const data = [];
+
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                const rowData = {
+                    id: cells[1].innerText,
+                    nama: cells[2].innerText,
+                    email: cells[3].innerText,
+                    alamat: cells[4].innerText,
+                    jabatan: cells[5].innerText
+                };
+                data.push(rowData);
+            }
+
+            localStorage.setItem('karyawanData', JSON.stringify(data));
+        }
+
+        // Fungsi untuk mencari data gaji
+        function searchGaji() {
+            const input = document.getElementById('searchGaji');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('gajiTableBody');
+            const tr = table.getElementsByTagName('tr');
+
+            for (let i = 0; i < tr.length; i++) {
+                const td = tr[i].getElementsByTagName('td')[2]; // Kolom Nama
+                if (td) {
+                    const txtValue = td.textContent || td.innerText;
+                    tr[i].style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
+                }
+            }
+        }
+
+        // Fungsi untuk menghapus data gaji
+        function deleteGaji(row) {
+            const i = row.parentNode.parentNode.rowIndex; // Mendapatkan indeks baris
+            document.getElementById('gajiTableBody').deleteRow(i - 1); // Menghapus baris
+        }
+
+        // Fungsi untuk mengedit data gaji
+        function editGaji(row) {
+            const i = row.parentNode.parentNode.rowIndex; // Mendapatkan indeks baris
+            const table = document.getElementById('gajiTableBody');
+            const selectedRow = table.rows[i - 1];
+
+            // Mengisi form input dengan data yang ada
+            document.getElementById('inputIDGaji').value = selectedRow.cells[1].innerText;
+            document.getElementById('inputNamaGaji').value = selectedRow.cells[2].innerText;
+            document.getElementById('inputGajiPokok').value = selectedRow.cells[3].innerText;
+            document.getElementById('inputTunjangan').value = selectedRow.cells[4].innerText;
+            document.getElementById('inputLembur').value = selectedRow.cells[5].innerText;
+            document.getElementById('inputPotongan').value = selectedRow.cells[6].innerText;
+            document.getElementById('inputTotalGaji').value = selectedRow.cells[7].innerText;
+            document.getElementById('inputPeriode').value = selectedRow.cells[8].innerText;
+
+            // Menghapus baris yang dipilih
+            deleteGaji(row);
+        }
+
+        // Fungsi untuk mencetak slip gaji per orang
+        function printSlipGaji(row) {
+            // Mendapatkan baris yang berisi tombol cetak yang diklik
+            const rowToPrint = row.closest('tr');
+            const cells = rowToPrint.getElementsByTagName('td');
+
+            // Mengambil data dari sel
+            const idKaryawan = cells[1].innerText;
+            const nama = cells[2].innerText;
+            const gajiPokok = cells[3].innerText;
+            const tunjangan = cells[4].innerText;
+            const lembur = cells[5].innerText;
+            const potongan = cells[6].innerText;
+            const totalGaji = cells[7].innerText;
+            const periode = cells[8].innerText;
+            const status = cells[9].innerText;
+
+            // Membuat konten slip gaji
+            const slipContent = `
+                <h2>Slip Gaji Karyawan</h2>
+                <p>ID Karyawan: ${idKaryawan}</p>
+                <p>Nama: ${nama}</p>
+                <p>Gaji Pokok: ${gajiPokok}</p>
+                <p>Tunjangan: ${tunjangan}</p>
+                <p>Lembur: ${lembur}</p>
+                <p>Potongan: ${potongan}</p>
+                <p>Total Gaji: ${totalGaji}</p>
+                <p>Periode: ${periode}</p>
+                <p>Status: ${status}</p>
+            `;
+
+            // Membuka jendela baru untuk mencetak
+            const printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<html><head><title>Slip Gaji</title>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write(slipContent);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close(); // Menutup dokumen
+            printWindow.print(); // Memanggil dialog cetak
+        }
+
+        // Fungsi untuk menampilkan data absensi dari localStorage
+        function loadAbsensiData() {
+            const absensiData = JSON.parse(localStorage.getItem('absensiData')) || [];
+            addAbsensiData(absensiData);
+        }
+
+        // Fungsi untuk mereset form input
+        function resetAbsensiForm() {
+            document.getElementById('inputID').value = '';
+            document.getElementById('inputNama').value = '';
+            document.getElementById('inputTanggal').value = '';
+            document.getElementById('inputJamMasuk').value = '';
+            document.getElementById('inputJamKeluar').value = '';
+        }
+
+        // Panggil loadAbsensiData saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', loadAbsensiData);
+
+        // Fungsi untuk memuat data karyawan dari localStorage
+        function loadKaryawanData() {
+            const karyawanData = JSON.parse(localStorage.getItem('karyawanData')) || [];
+            const tableBody = document.getElementById('karyawanTableBody');
+            tableBody.innerHTML = ''; // Kosongkan tabel sebelum menambahkan data baru
+            karyawanData.forEach((item, index) => {
+                const row = `<tr>
+                    <td>${index + 1}</td>
+                    <td>${item.id}</td>
+                    <td>${item.nama}</td>
+                    <td>${item.email}</td>
+                    <td>${item.alamat}</td>
+                    <td>${item.jabatan}</td>
+                    <td>
+                        <a href="#" class="action-btn edit" onclick="editKaryawan(${index})"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteKaryawan(${index})"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        // Fungsi untuk memuat data dari Local Storage saat halaman dimuat
+        function loadDataFromLocalStorage() {
+            const data = JSON.parse(localStorage.getItem('gajiData'));
+            if (data) {
+                const tableBody = document.getElementById('gajiTableBody');
+                data.forEach((item, index) => {
+                    const row = tableBody.insertRow(index);
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${item.id}</td>
+                        <td>${item.nama}</td>
+                        <td>${item.gajiPokok}</td>
+                        <td>${item.tunjangan}</td>
+                        <td>${item.lembur}</td>
+                        <td>${item.potongan}</td>
+                        <td>${item.totalGaji}</td>
+                        <td>${item.periode}</td>
+                        <td><span class="badge success">${item.status}</span></td>
+                        <td>
+                            <a href="#" class="action-btn edit" onclick="editGaji(this)"><i class="fas fa-edit"></i></a>
+                            <a href="#" class="action-btn print" onclick="printSlipGaji(this)"><i class="fas fa-print"></i></a>
+                            <a href="#" class="action-btn delete" onclick="deleteGaji(this)"><i class="fas fa-trash"></i></a>
+                        </td>
+                    `;
+                });
+            }
+        }
+
+        // Panggil fungsi loadDataFromLocalStorage saat halaman dimuat
+        window.onload = loadDataFromLocalStorage;
+
+        // Fungsi untuk menambah data laporan
+        function addLaporan() {
+            const id = document.getElementById('inputIDLaporan').value;
+            const nama = document.getElementById('inputNamaLaporan').value;
+            const bulan = document.getElementById('inputBulanLaporan').value;
+            const status = document.getElementById('inputStatusLaporan').value;
+
+            // Validasi input
+            if (!id || !nama || !bulan || !status) {
+                alert("Semua field harus diisi!");
+                return;
+            }
+
+            const tableBody = document.getElementById('laporanTableBody');
+            const rowCount = tableBody.rows.length + 1;
+
+            const row = tableBody.insertRow(rowCount);
+            row.innerHTML = `
+                <td>${rowCount}</td>
+                <td>${id}</td>
+                <td>${nama}</td>
+                <td>${bulan}</td>
+                <td>${status}</td>
+                <td>
+                    <a href="#" class="action-btn edit" onclick="editLaporan(this)">Edit</a>
+                    <a href="#" class="action-btn delete" onclick="deleteLaporan(this)">Hapus</a>
+                </td>
+            `;
+
+            // Reset input fields
+            resetLaporanForm();
+        }
+
+        // Fungsi untuk mengedit data laporan
+        function editLaporan(element) {
+            const row = element.closest('tr');
+            const cells = row.getElementsByTagName('td');
+
+            document.getElementById('inputIDLaporan').value = cells[1].innerText;
+            document.getElementById('inputNamaLaporan').value = cells[2].innerText;
+            document.getElementById('inputBulanLaporan').value = cells[3].innerText;
+            document.getElementById('inputStatusLaporan').value = cells[4].innerText;
+
+            // Hapus baris setelah edit
+            deleteLaporan(element);
+        }
+
+        // Fungsi untuk menghapus data laporan
+        function deleteLaporan(element) {
+            const row = element.closest('tr');
+            row.parentNode.removeChild(row);
+        }
+
+        // Fungsi untuk mencetak laporan
+        function printLaporan() {
+            const table = document.getElementById('laporanTableBody');
+            const rows = table.getElementsByTagName('tr');
+            let slipContent = `
+                <h2>Data Laporan</h2>
+                <table border="1">
+                    <tr>
+                        <th>No</th>
+                        <th>ID Laporan</th>
+                        <th>Nama Laporan</th>
+                        <th>Bulan</th>
+                        <th>Status</th>
+                    </tr>
+            `;
+
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                slipContent += `
+                    <tr>
+                        <td>${cells[0].innerText}</td>
+                        <td>${cells[1].innerText}</td>
+                        <td>${cells[2].innerText}</td>
+                        <td>${cells[3].innerText}</td>
+                        <td>${cells[4].innerText}</td>
+                    </tr>
+                `;
+            }
+
+            slipContent += `</table>`;
+
+            const newWindow = window.open('', '', 'height=600,width=800');
+            newWindow.document.write('<html><head><title>Laporan</title></head><body>');
+            newWindow.document.write(slipContent);
+            newWindow.document.write('</body></html>');
+            newWindow.document.close();
+            newWindow.print();
+        }
+
+        // Fungsi untuk mereset form input
+        function resetLaporanForm() {
+            document.getElementById('inputIDLaporan').value = '';
+            document.getElementById('inputNamaLaporan').value = '';
+            document.getElementById('inputBulanLaporan').value = '';
+            document.getElementById('inputStatusLaporan').value = '';
+        }
+        
+  </script>
+  <!-- sidebar Menu -->
+ </head>
+ <body>
+  <div class="sidebar">
+   <div class="sidebar-header">
+    <img alt="User profile picture" height="50" src="iya.jpg"/>
+    <h3>
+     Welcome
+    </h3>
+    <p>
+     Admin
+    </p>
+   </div>
+   <div class="sidebar-menu">
+    <h3>Dashboard</h3>
+    <a href="#" onclick="showSection('dashboard')">
+        <i class="fas fa-tachometer-alt"></i>
+        <span>Dashboard</span>
+    </a>
+    <h3>Menu Karyawan</h3>
+    <a href="#" onclick="showSection('karyawan')">
+        <i class="fas fa-users"></i>
+        <span>Karyawan</span>
+    </a>
+    <a href="#" onclick="showSection('jabatan')">
+        <i class="fas fa-briefcase"></i>
+        <span>Jabatan</span>
+    </a>
+    <a href="#" onclick="showSection('divisi')">
+        <i class="fas fa-sitemap"></i>
+        <span>Divisi</span>
+    </a>
+    
+    <h3>Menu Absensi</h3>
+    <a href="#" onclick="showSection('absensi')">
+        <i class="fas fa-calendar-check"></i>
+        <span>Absensi</span>
+    </a>
+    <a href="#" onclick="showSection('izin')">
+        <i class="fas fa-calendar-times"></i>
+        <span>Izin</span>
+    </a>
+    <a href="#" onclick="showSection('lembur')">
+        <i class="fas fa-clock"></i>
+        <span>Lembur</span>
+    </a>
+
+    <h3>Menu Penggajian</h3>
+    <a href="#" onclick="showSection('penggajian')">
+        <i class="fas fa-money-bill-wave"></i>
+        <span>Slip Gaji</span>
+    </a>
+    <h3>Menu Laporan</h3>
+    <a href="#" onclick="showSection('laporan')">
+        <i class="fas fa-file-alt"></i>
+        <span>Cetak Laporan</span>
+    </a>
+
+    <h3>Menu Admin</h3>
+    <a href="#" onclick="showSection('logout')">Logout</a>
+       
+    </a>
+   </div>
+  </div>
+  <!-- Dashboard -->
+  <div class="main-content">
+   <div class="header">
+    <h1>
+     Sistem Informasi Manajemen Karyawan
+    </h1>
+    <div class="user-info">
+     <img alt="User profile picture" height="40" src="mee.jpg" width="40"/>
+     <p>
+      Saiyah Awaliyah
+     </p>
+    </div>
+   </div>
+   <div class="content-section active" id="dashboard">
+    <div class="dashboard-cards">
+     <div class="card">
+      <i class="fas fa-users">
+      </i>
+      <h3>
+       Total Karyawan
+      </h3>
+      <p>
+       10
+      </p>
+     </div>
+     <div class="card">
+      <i class="fas fa-calendar-alt">
+      </i>
+      <h3>
+       Absensi Hari Ini
+      </h3>
+      <p>
+       10
+      </p>
+     </div>
+     <div class="card">
+      <i class="fas fa-file-alt">
+      </i>
+      <h3>
+       Izin Menunggu Konfirmasi
+      </h3>
+      <p>
+       5
+      </p>
+     </div>
+     <div class="card">
+      <i class="fas fa-cogs">
+      </i>
+      <h3>
+       Lembur Menunggu Konfirmasi
+      </h3>
+      <p>
+       6
+      </p>
+     </div>
+    </div>
+   </div>
+   <!-- Karyawan -->
+   <div class="content-section" id="karyawan">
+    <div class="table-container">
+        <h2>Data Karyawan</h2>
+        
+        <!-- Form Input untuk Menambah Karyawan -->
+        <div class="form-container">
+            <input type="text" id="inputIDKaryawan" placeholder="ID Karyawan" required>
+            <input type="text" id="inputNamaKaryawan" placeholder="Nama" required>
+            <input type="email" id="inputEmailKaryawan" placeholder="Email" required>
+            <input type="text" id="inputAlamatKaryawan" placeholder="Alamat" required>
+            <input type="text" id="inputJabatanKaryawan" placeholder="Jabatan" required>
+            <button onclick="addKaryawan()">Tambah Karyawan</button>
+        </div>
+
+        <!-- Kolom Pencarian Karyawan -->
+        <div class="search-container">
+            <input type="text" id="searchKaryawan" onkeyup="searchKaryawan()" placeholder="Cari berdasarkan nama...">
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>ID Karyawan</th>
+                    <th>Nama</th>
+                    <th>Email</th>
+                    <th>Alamat</th>
+                    <th>Jabatan</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="karyawanTableBody">
+                <tr>
+                    <td>1</td>
+                    <td>001</td>
+                    <td>Saiyah Awaliyah</td>
+                    <td>saiyah@example.com</td>
+                    <td>Jl. Merdeka No. 1</td>
+                    <td>Manager</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteKaryawan(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>002</td>
+                    <td>Ahmad Zulkarnain</td>
+                    <td>ahmad@example.com</td>
+                    <td>Jl. Kebangsaan No. 2</td>
+                    <td>Staff</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteKaryawan(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>003</td>
+                    <td>Rina Sari</td>
+                    <td>rina@example.com</td>
+                    <td>Jl. Pahlawan No. 3</td>
+                    <td>HR</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteKaryawan(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>004</td>
+                    <td>Budi Santoso</td>
+                    <td>budi@example.com</td>
+                    <td>Jl. Cendana No. 4</td>
+                    <td>IT Support</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteKaryawan(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>005</td>
+                    <td>Lisa Putri</td>
+                    <td>lisa@example.com</td>
+                    <td>Jl. Melati No. 5</td>
+                    <td>Marketing</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteKaryawan(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>006</td>
+                    <td>Fajar Nugroho</td>
+                    <td>fajar@example.com</td>
+                    <td>Jl. Anggrek No. 6</td>
+                    <td>Finance</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteKaryawan(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>007</td>
+                    <td>Indah Permatasari</td>
+                    <td>indah@example.com</td>
+                    <td>Jl. Mawar No. 7</td>
+                    <td>Designer</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteKaryawan(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>008</td>
+                    <td>Rudi Hartono</td>
+                    <td>rudi@example.com</td>
+                    <td>Jl. Kenanga No. 8</td>
+                    <td>Sales</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteKaryawan(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>009</td>
+                    <td>Wati Sari</td>
+                    <td>wati@example.com</td>
+                    <td>Jl. Flamboyan No. 9</td>
+                    <td>Admin</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteKaryawan(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>010</td>
+                    <td>Rizky Pratama</td>
+                    <td>rizky@example.com</td>
+                    <td>Jl. Srikaya No. 10</td>
+                    <td>Logistik</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteKaryawan(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+   </div>
+   <!-- Jabatan Karyawan -->
+<div class="content-section" id="jabatan">
+    <div class="table-container">
+        <h2>Data Jabatan</h2>
+        <!-- From tambah jabatan Karyawan -->
+        <div class="form-container">
+            <input type="text" id="inputKodeJabatan" placeholder="Kode Jabatan" required>
+            <input type="text" id="inputNamaJabatan" placeholder="Nama Jabatan" required>
+            <button onclick="addJabatan()">Tambah Jabatan</button>
+        </div>
+<!-- Kolom Pencarian jabatan Karyawan -->
+        <div class="search-container">
+            <input type="text" id="searchJabatan" onkeyup="searchJabatan()" placeholder="Cari berdasarkan nama...">
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Kode Jabatan</th>
+                    <th>Nama Jabatan</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="jabatanTableBody">
+                <tr>
+                    <td>1</td>
+                    <td>J001</td>
+                    <td>Manager</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteJabatan(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>J002</td>
+                    <td>Staff</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteJabatan(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>J003</td>
+                    <td>HR</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteJabatan(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>J004</td>
+                    <td>IT Support</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteJabatan(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>J005</td>
+                    <td>Marketing</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteJabatan(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>J006</td>
+                    <td>Finance</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteJabatan(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>J007</td>
+                    <td>Designer</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteJabatan(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>J008</td>
+                    <td>Sales</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteJabatan(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>J009</td>
+                    <td>Admin</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteJabatan(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>J010</td>  
+                    <td>Logistik</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteJabatan(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- divisi Karyawan -->
+<div class="content-section" id="divisi">
+    <div class="table-container">
+        <h2>Data Divisi</h2>
+        <!-- from divisi Karyawan -->
+        <div class="form-container">
+            <input type="text" id="inputIDDivisi" placeholder="ID Divisi" required>
+            <input type="text" id="inputNamaDivisi" placeholder="Nama Divisi" required>
+            <button onclick="addDivisi()">Tambah Divisi</button>
+        </div>
+<!-- Kolom Pencarian divisi Karyawan -->
+        <div class="search-container">
+            <input type="text" id="searchDivisi" onkeyup="searchDivisi()" placeholder="Cari berdasarkan nama...">
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>ID Divisi</th>
+                    <th>Nama Divisi</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="divisiTableBody">
+                <tr>
+                    <td>1</td>
+                    <td>D001</td>
+                    <td>Divisi Sumber Daya Manusia</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteDivisi(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>D002</td>
+                    <td>Divisi Keuangan</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteDivisi(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>D003</td>
+                    <td>Divisi Pemasaran</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteDivisi(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>D004</td>
+                    <td>Divisi IT</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteDivisi(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>D005</td>
+                    <td>Divisi Operasional</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteDivisi(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>D006</td>
+                    <td>Divisi Penjualan</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteDivisi(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>D007</td>
+                    <td>Divisi Riset dan Pengembangan</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteDivisi(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>D008</td>
+                    <td>Divisi Hukum</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteDivisi(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>D009</td>
+                    <td>Divisi Kualitas</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteDivisi(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>D010</td>
+                    <td>Divisi Logistik</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteDivisi(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+   <!-- Absensi Karyawan-->
+   <div class="content-section" id="absensi">
+    <div class="table-container">
+        <h2>Data Absensi Karyawan</h2>
+        
+        <!-- Form Input untuk Menambah Data Absensi -->
+        <div class="form-container">
+            <input type="text" id="inputIDAbsensi" placeholder="ID Karyawan" required>
+            <input type="text" id="inputNamaAbsensi" placeholder="Nama" required>
+            <input type="date" id="inputTanggalAbsensi" required>
+            <input type="time" id="inputJamMasuk" required>
+            <input type="time" id="inputJamKeluar" required>
+            <button onclick="addAbsensi()">Tambah Absensi</button>
+        </div>
+
+        <!-- Kolom Pencarian Absensi -->
+        <div class="search-container">
+            <input type="text" id="searchAbsensi" onkeyup="searchAbsensi()" placeholder="Cari berdasarkan nama...">
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>ID Karyawan</th>
+                    <th>Nama</th>
+                    <th>Tanggal</th>
+                    <th>Jam Masuk</th>
+                    <th>Jam Keluar</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="absensiTableBody">
+                <tr>
+                    <td>1</td>
+                    <td>001</td>
+                    <td>Saiyah Awaliyah</td>
+                    <td>2023-10-01</td>
+                    <td>08:00</td>
+                    <td>17:00</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteAbsensi(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>002</td>
+                    <td>Ahmad Zulkarnain</td>
+                    <td>2023-10-01</td>
+                    <td>08:15</td>
+                    <td>17:15</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteAbsensi(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>003</td>
+                    <td>Rina Sari</td>
+                    <td>2023-10-01</td>
+                    <td>08:30</td>
+                    <td>17:30</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteAbsensi(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>004</td>
+                    <td>Budi Santoso</td>
+                    <td>2023-10-01</td>
+                    <td>08:00</td>
+                    <td>17:00</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteAbsensi(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>005</td>
+                    <td>Lisa Putri</td>
+                    <td>2023-10-01</td>
+                    <td>08:15</td>
+                    <td>17:15</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteAbsensi(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>006</td>
+                    <td>Fajar Nugroho</td>
+                    <td>2023-10-01</td>
+                    <td>08:30</td>
+                    <td>17:30</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteAbsensi(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>007</td>
+                    <td>Indah Permatasari</td>
+                    <td>2023-10-01</td>
+                    <td>08:00</td>
+                    <td>17:00</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteAbsensi(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>008</td>
+                    <td>Rudi Hartono</td>
+                    <td>2023-10-01</td>
+                    <td>08:15</td>
+                    <td>17:15</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteAbsensi(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>009</td>
+                    <td>Wati Sari</td>
+                    <td>2023-10-01</td>
+                    <td>08:30</td>
+                    <td>17:30</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteAbsensi(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>010</td>
+                    <td>Rizky Pratama</td>
+                    <td>2023-10-01</td>
+                    <td>08:00</td>
+                    <td>17:00</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteAbsensi(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+   </div>
+<!-- Izin Karyawan -->
+   <div class="content-section" id="izin">
+    <div class="table-container">
+        <h2>Data Izin Karyawan</h2>
+        <!-- Form Input untuk Menambah izin Karyawan -->
+        <div class="form-container">
+            <input type="text" id="inputIDIzin" placeholder="ID Karyawan" required>
+            <input type="text" id="inputNamaIzin" placeholder="Nama" required>
+            <input type="date" id="inputTanggalIzin" required>
+            <input type="text" id="inputKeteranganIzin" placeholder="Keterangan" required>
+            <input type="text" id="inputStatusIzin" placeholder="Status" required>
+            <button onclick="addIzin()">Tambah Izin</button>
+        </div>
+<!-- Mencari izin Karyawan -->
+        <div class="search-container">
+            <input type="text" id="searchIzin" onkeyup="searchIzin()" placeholder="Cari berdasarkan nama...">
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>ID Karyawan</th>
+                    <th>Nama</th>
+                    <th>Tanggal</th>
+                    <th>Keterangan</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="izinTableBody">
+                <tr>
+                    <td>1</td>
+                    <td>001</td>
+                    <td>Saiyah Awaliyah</td>
+                    <td>2023-10-01</td>
+                    <td>Sakit</td>
+                    <td>Disetujui</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteIzin(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>002</td>
+                    <td>Ahmad Zulkarnain</td>
+                    <td>2023-10-02</td>
+                    <td>Libur</td>
+                    <td>Menunggu Konfirmasi</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteIzin(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>003</td>
+                    <td>Rina Sari</td>
+                    <td>2023-10-03</td>
+                    <td>Acara Keluarga</td>
+                    <td>Menunggu Konfirmasi</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteIzin(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>004</td>
+                    <td>Budi Santoso</td>
+                    <td>2023-10-04</td>
+                    <td>Urusan Pribadi</td>
+                    <td>Disetujui</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteIzin(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>005</td>
+                    <td>Lisa Putri</td>
+                    <td>2023-10-05</td>
+                    <td>Libur</td>
+                    <td>Disetujui</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteIzin(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>006</td>
+                    <td>Fajar Nugroho</td>
+                    <td>2023-10-06</td>
+                    <td>Sakit</td>
+                    <td>Disetujui</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteIzin(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>007</td>
+                    <td>Indah Permatasari</td>
+                    <td>2023-10-07</td>
+                    <td>Acara Keluarga</td>
+                    <td>Menunggu Konfirmasi</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteIzin(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>008</td>
+                    <td>Rudi Hartono</td>
+                    <td>2023-10-08</td>
+                    <td>Urusan Pribadi</td>
+                    <td>Menunggu Konfirmasi</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteIzin(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>009</td>
+                    <td>Wati Sari</td>
+                    <td>2023-10-09</td>
+                    <td>Libur</td>
+                    <td>Menunggu Konfirmasi</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteIzin(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>010</td>
+                    <td>Rizky Pratama</td>
+                    <td>2023-10-10</td>
+                    <td>Sakit</td>
+                    <td>Disetujui</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteIzin(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Lembur Karyawan -->
+<div class="content-section" id="lembur">
+    <div class="table-container">
+        <h2>Data Lembur Karyawan</h2>
+        
+        <div class="form-container">
+            <input type="text" id="inputIDLembur" placeholder="ID Karyawan" required>
+            <input type="text" id="inputNamaLembur" placeholder="Nama" required>
+            <input type="date" id="inputTanggalLembur" required>
+            <input type="number" id="inputJamLembur" placeholder="Jam Lembur" required>
+            <input type="text" id="inputKeteranganLembur" placeholder="Keterangan" required>
+            <input type="text" id="inputStatusLembur" placeholder="Status" required>
+            <button onclick="addLembur()">Tambah Lembur</button>
+        </div>
+<!-- kolom Pencarian lembur Karyawan -->
+        <div class="search-container">
+            <input type="text" id="searchLembur" onkeyup="searchLembur()" placeholder="Cari berdasarkan nama...">
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>ID Karyawan</th>
+                    <th>Nama</th>
+                    <th>Tanggal</th>
+                    <th>Jam Lembur</th>
+                    <th>Keterangan</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="lemburTableBody">
+                <tr>
+                    <td>1</td>
+                    <td>001</td>
+                    <td>Saiyah Awaliyah</td>
+                    <td>2023-10-01</td>
+                    <td>2</td>
+                    <td>Proyek Khusus</td>
+                    <td>Disetujui</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteLembur(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>002</td>
+                    <td>Ahmad Zulkarnain</td>
+                    <td>2023-10-02</td>
+                    <td>3</td>
+                    <td>Persiapan Acara</td>
+                    <td>Menunggu Konfirmasi</td>
+
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteLembur(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>003</td>
+                    <td>Rina Sari</td>
+                    <td>2023-10-03</td>
+                    <td>1</td>
+                    <td>Urusan Proyek</td>
+                    <td>Menunggu Konfirmasi</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteLembur(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>004</td>
+                    <td>Budi Santoso</td>
+                    <td>2023-10-04</td>
+                    <td>4</td>
+                    <td>Proyek Khusus</td>
+                    <td>Disetujui</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteLembur(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>005</td>
+                    <td>Lisa Putri</td>
+                    <td>2023-10-05</td>
+                    <td>2</td>
+                    <td>Persiapan Acara</td>
+                    <td>Menunggu Konfirmasi</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteLembur(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>006</td>
+                    <td>Fajar Nugroho</td>
+                    <td>2023-10-06</td>
+                    <td>3</td>
+                    <td>Urusan Proyek</td>
+                    <td>Disetujui</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteLembur(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>007</td>
+                    <td>Indah Permatasari</td>
+                    <td>2023-10-07</td>
+                    <td>1</td>
+                    <td>Proyek Khusus</td>
+                    <td>Menunggu Konfirmasi</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteLembur(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>008</td>
+                    <td>Rudi Hartono</td>
+                    <td>2023-10-08</td>
+                    <td>2</td>
+                    <td>Persiapan Acara</td>
+                    <td>Menunggu Konfirmasi</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteLembur(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>009</td>
+                    <td>Wati Sari</td>
+                    <td>2023-10-09</td>
+                    <td>3</td>
+                    <td>Urusan Proyek</td>
+                    <td>Menunggu Konfirmasi</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteLembur(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>010</td>
+                    <td>Rizky Pratama</td>
+                    <td>2023-10-10</td>
+                    <td>4</td>
+                    <td>Proyek Khusus</td>
+                    <td>Disetujui</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteLembur(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Data Laporan Karyawan -->
+   <div class="content-section" id="laporan">
+    <div class="table-container">
+        <h2>Data Laporan</h2>
+        
+        <!-- Form Input untuk Menambah Data Laporan -->
+        <div class="form-container">
+            <input type="text" id="inputIDLaporan" placeholder="ID Laporan" required>
+            <input type="text" id="inputNamaLaporan" placeholder="Nama Laporan" required>
+            <input type="text" id="inputBulanLaporan" placeholder="Bulan" required>
+            <input type="text" id="inputStatusLaporan" placeholder="Status" required>
+            <button onclick="addLaporan()">Tambah Laporan</button>
+        </div>
+<!-- kolom Pencarian Laporan Karyawan -->
+<div class="search-container">
+    <input type="text" id="searchLaporan" onkeyup="searchLaporan()" placeholder="Cari berdasarkan nama...">
+</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>ID Laporan</th>
+                    <th>Nama Laporan</th>
+                    <th>Bulan</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="laporanTableBody">
+                <tr>
+                    <td>1</td>
+                    <td>L001</td>
+                    <td>Laporan Bulanan</td>
+                    <td>Oktober 2023</td>
+                    <td>Disetujui</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteLaporan(this)">Hapus</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>L002</td>
+                    <td>Laporan Kinerja</td>
+                    <td>September 2023</td>
+                    <td>Pending</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteLaporan(this)">Hapus</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>L003</td>
+                    <td>Laporan Keuangan</td>
+                    <td>Agustus 2023</td>
+                    <td>Disetujui</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteLaporan(this)">Hapus</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>L004</td>
+                    <td>Laporan Proyek</td>
+                    <td>Juli 2023</td>
+                    <td>Ditolak</td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteLaporan(this)">Hapus</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Tombol Cetak Laporan -->
+        <button onclick="printLaporan()">Cetak Laporan</button>
+    </div>
+</div>
+
+   <!-- penggajian Karyawan -->
+<div class="content-section" id="penggajian">
+    <div class="table-container">
+        <h2>Data Penggajian Karyawan</h2>
+        <div class="form-container">
+            <input type="text" id="inputIDGaji" placeholder="ID Karyawan" required>
+            <input type="text" id="inputNamaGaji" placeholder="Nama" required>
+            <input type="text" id="inputGajiPokok" placeholder="Gaji Pokok" required>
+            <input type="text" id="inputTunjangan" placeholder="Tunjangan" required>
+            <input type="text" id="inputLembur" placeholder="Lembur" required>
+            <input type="text" id="inputPotongan" placeholder="Potongan" required>
+            <input type="text" id="inputTotalGaji" placeholder="Total Gaji" required>
+            <input type="text" id="inputPeriode" placeholder="Periode" required>
+            <button onclick="addGaji()">Tambah Data Gaji</button>
+        </div>
+         <!-- kolom pencrian penggajian Karyawan -->
+        <div class="search-container">
+            <input type="text" id="searchGaji" onkeyup="searchGaji()" placeholder="Cari berdasarkan nama...">
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>ID Karyawan</th>
+                    <th>Nama</th>
+                    <th>Gaji Pokok</th>
+                    <th>Tunjangan</th>
+                    <th>Lembur</th>
+                    <th>Potongan</th>
+                    <th>Total Gaji</th>
+                    <th>Periode</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="gajiTableBody">
+                <tr>
+                    <td>1</td>
+                    <td>001</td>
+                    <td>Saiyah Awaliyah</td>
+                    <td>Rp 9.500.000</td>
+                    <td>Rp 500.000</td>
+                    <td>Rp 250.000</td>
+                    <td>Rp 200.000</td>
+                    <td>Rp 9.750.000</td>
+                    <td>Oktober 2023</td>
+                    <td><span class="badge success">Dibayar</span></td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn print" onclick="printSlipGaji(this)"><i class="fas fa-print"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteGaji(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>002</td>
+                    <td>Angga Dwipayana</td>
+                    <td>Rp 4.500.000</td>
+                    <td>Rp 800.000</td>
+                    <td>Rp 300.000</td>
+                    <td>Rp 150.000</td>
+                    <td>Rp 5.450.000</td>
+                    <td>Oktober 2023</td>
+                    <td><span class="badge pending">Pending</span></td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn print" onclick="printSlipGaji(this)"><i class="fas fa-print"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteGaji(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>003</td>
+                    <td>Muhammad Fadil</td>
+                    <td>Rp 5.000.000</td>
+                    <td>Rp 900.000</td>
+                    <td>Rp 400.000</td>
+                    <td>Rp 100.000</td>
+                    <td>Rp 6.200.000</td>
+                    <td>Oktober 2023</td>
+                    <td><span class="badge success">Dibayar</span></td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn print" onclick="printSlipGaji(this)"><i class="fas fa-print"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteGaji(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>004</td>
+                    <td>Emilia Putri</td>
+                    <td>Rp 8.000.000</td>
+                    <td>Rp 1.500.000</td>
+                    <td>Rp 600.000</td>
+                    <td>Rp 200.000</td>
+                    <td>Rp 9.900.000</td>
+                    <td>Oktober 2023</td>
+                    <td><span class="badge success">Dibayar</span></td>
+                    <td>
+                        <a href="#" class="action-btn edit" ><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn print" onclick="printSlipGaji(this)"><i class="fas fa-print"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteGaji(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>005</td>
+                    <td>Fadilah Putri</td>
+                    <td>Rp 4.800.000</td>
+                    <td>Rp 850.000</td>
+                    <td>Rp 300.000</td>
+                    <td>Rp 150.000</td>
+                    <td>Rp 5.800.000</td>
+                    <td>Oktober 2023</td>
+                    <td><span class="badge pending">Pending</span></td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn print" onclick="printSlipGaji(this)"><i class="fas fa-print"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteGaji(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>006</td>
+                    <td>Sarah Wilson</td>
+                    <td>Rp 5.000.000</td>
+                    <td>Rp 900.000</td>
+                    <td>Rp 400.000</td>
+                    <td>Rp 100.000</td>
+                    <td>Rp 6.200.000</td>
+                    <td>Oktober 2023</td>
+                    <td><span class="badge success">Dibayar</span></td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn print" onclick="printSlipGaji(this)"><i class="fas fa-print"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteGaji(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>007</td>
+                    <td>Kevin Martin</td>
+                    <td>Rp 4.800.000</td>
+                    <td>Rp 850.000</td>
+                    <td>Rp 300.000</td>
+                    <td>Rp 150.000</td>
+                    <td>Rp 5.800.000</td>
+                    <td>Oktober 2023</td>
+                    <td><span class="badge pending">Pending</span></td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn print" onclick="printSlipGaji(this)"><i class="fas fa-print"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteGaji(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>008</td>
+                    <td>Anna White</td>
+                    <td>Rp 5.000.000</td>
+                    <td>Rp 900.000</td>
+                    <td>Rp 400.000</td>
+                    <td>Rp 100.000</td>
+                    <td>Rp 6.200.000</td>
+                    <td>Oktober 2023</td>
+                    <td><span class="badge success">Dibayar</span></td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn print" onclick="printSlipGaji(this)"><i class="fas fa-print"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteGaji(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>009</td>
+                    <td>Robert Taylor</td>
+                    <td>Rp 4.800.000</td>
+                    <td>Rp 850.000</td>
+                    <td>Rp 300.000</td>
+                    <td>Rp 150.000</td>
+                    <td>Rp 5.800.000</td>
+                    <td>Oktober 2023</td>
+                    <td><span class="badge pending">Pending</span></td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn print" onclick="printSlipGaji(this)"><i class="fas fa-print"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteGaji(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>010</td>
+                    <td>Emma Clark</td>
+                    <td>Rp 5.000.000</td>
+                    <td>Rp 900.000</td>
+                    <td>Rp 400.000</td>
+                    <td>Rp 100.000</td>
+                    <td>Rp 6.200.000</td>
+                    <td>Oktober 2023</td>
+                    <td><span class="badge success">Dibayar</span></td>
+                    <td>
+                        <a href="#" class="action-btn edit"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="action-btn print" onclick="printSlipGaji(this)"><i class="fas fa-print"></i></a>
+                        <a href="#" class="action-btn delete" onclick="deleteGaji(this)"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- Bagian Gaji -->
+<div class="content-section" id="gaji">
+    <div class="table-container">
+        <h2>Data Gaji Karyawan</h2>
+        
+        <!-- Form Input untuk Menambah Data Gaji -->
+        <div class="form-container">
+            <input type="text" id="inputIDGaji" placeholder="ID Karyawan" required>
+            <input type="text" id="inputNamaGaji" placeholder="Nama" required>
+            <input type="number" id="inputGajiPokok" placeholder="Gaji Pokok" required>
+            <input type="number" id="inputTunjangan" placeholder="Tunjangan" required>
+            <input type="number" id="inputPotongan" placeholder="Potongan" required>
+            <button onclick="addGaji()">Tambah Data Gaji</button>
+        </div>
+
+        <!-- Kolom Pencarian -->
+        <div class="search-container">
+            <input type="text" id="searchGaji" onkeyup="searchGaji()" placeholder="Cari berdasarkan nama...">
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>ID Karyawan</th>
+                    <th>Nama</th>
+                    <th>Gaji Pokok</th>
+                    <th>Tunjangan</th>
+                    <th>Potongan</th>
+                    <th>Total Gaji</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="gajiTableBody">
+                <!-- Data Gaji akan ditambahkan di sini -->
+            </tbody>
+        </table>
+
+        <!-- Tombol Cetak Slip Gaji -->
+        <button onclick="printSlipGaji()">Cetak Slip Gaji</button>
+    </div>
+</div>
+
+<!-- Bagian Slip Gaji -->
+<div class="content-section" id="slipGaji">
+    <div class="table-container">
+        <h2>Slip Gaji Karyawan</h2>
+        
+        <!-- Tombol Cetak Slip Gaji -->
+        <button onclick="printSlipGaji()">Cetak Slip Gaji</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>ID Karyawan</th>
+                    <th>Nama</th>
+                    <th>Gaji Pokok</th>
+                    <th>Tunjangan</th>
+                    <th>Potongan</th>
+                    <th>Total Gaji</th>
+                </tr>
+            </thead>
+            <tbody id="gajiTableBody">
+                <!-- Data Gaji akan ditambahkan di sini -->
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Pengaturan -->
+   <div id="pengaturan" class="content-section">
+    <div class="settings-container">
+        <h2>Pengaturan</h2>
+        
+        <!-- Pengaturan Profil -->
+        <div class="settings-card">
+            <h3>Profil</h3>
+            <div class="form-group">
+                <label for="nama">Nama Lengkap</label>
+                <input type="text" id="nama" placeholder="Masukkan nama lengkap">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Masukkan email">
+            </div>
+            <div class="form-group">
+                <label for="telepon">Nomor Telepon</label>
+                <input type="tel" id="telepon" placeholder="Masukkan nomor telepon">
+            </div>
+        </div>
+
+        <!-- Pengaturan Keamanan -->
+        <div class="settings-card">
+            <h3>Keamanan</h3>
+            <div class="form-group">
+                <label for="password-lama">Password Lama</label>
+                <input type="password" id="password-lama" placeholder="Masukkan password lama">
+            </div>
+            <div class="form-group">
+                <label for="password-baru">Password Baru</label>
+                <input type="password" id="password-baru" placeholder="Masukkan password baru">
+            </div>
+            <div class="form-group">
+                <label for="konfirmasi-password">Konfirmasi Password Baru</label>
+                <input type="password" id="konfirmasi-password" placeholder="Konfirmasi password baru">
+            </div>
+        </div>
+
+        <!-- Pengaturan Notifikasi -->
+        <div class="settings-card">
+            <h3>Notifikasi</h3>
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="email-notif">
+                <label for="email-notif">Terima notifikasi email</label>
+            </div>
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="sistem-notif">
+                <label for="sistem-notif">Terima notifikasi sistem</label>
+            </div>
+        </div>
+
+        <button class="btn save-settings">Simpan Perubahan</button>
+    </div>
+</div>
+  </div>
+ </body>
+</html>
